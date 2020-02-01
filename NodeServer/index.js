@@ -47,7 +47,7 @@ io.on('connection', function(socket){
   });
   socket.on('disconnect', function () {
 	 disconnected = true;
-	 users[id] = "bye"
+	 delete users[id];
   });
   setInterval(function() {
 	var pos = [];

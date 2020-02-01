@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
         imgData.data[i+j*4*this.img.width+1] = 0;
         imgData.data[i+j*4*this.img.width+2] = 0;
         imgData.data[i+j*4*this.img.width+3] = 255;
-      }cd 
+      }
       this.ctx.clearRect(0,0,this.img.width,this.img.height);
       this.ctx.putImageData(imgData, 0, 0);
       (<HTMLImageElement>document.getElementById("map")).src = this.canvas.toDataURL();

@@ -1,0 +1,50 @@
+﻿Item,Section,X,Y
+-,Entrance,940,655
+-,Exit,420,655
+-,Checkout 0,292,525
+-,Checkout 1,363,525
+-,Checkout 2,432,525
+-,Checkout 3,502,525
+-,Checkout 4,570,525
+-,Checkout 5,639,525
+-,Checkout 6,708,525
+-,Checkout 7,780,525
+Roses,Flowers,138,510
+Apples,Produce,138,380
+Carrots,Produce,138,220
+Bread,Bakery,160,70
+Milk,Dairy,280,70
+Eggs,Dairy,440,70
+Chicken,Meat & Poultry,600,70
+Turkey,Meat & Poultry,740,70
+Beef,Meat & Poultry,870,70
+Crab,Seafood,1040,70
+Shrimp,Seafood,1100,130
+Advil,Pharmacy,1100,220
+Sub Sandwich,Grab & Go,1100,380
+Breakfast Sandwich,Deli & Coffee Bar,1100,530
+Hot Coffee,Deli & Coffee Bar,1100,560
+Beans,Aisle 0,255,350
+Tomato Paste,Aisle 0,255,200
+Cream of Mushroom Soup,Aisle 0,317,350
+Chicken Broth,Aisle 0,317,200
+Pop Tarts,Aisle 1,401,350
+Crackers,Aisle 1,401,200
+Chips,Aisle 1,463,350
+Candy,Aisle 1,463,200
+Pasta,Aisle 2,533,350
+Pasta Sauce,Aisle 2,533,200
+Cereal,Aisle 2,597,350
+Granola Bars,Aisle 2,597,200
+Peanut Butter,Aisle 3,668,350
+Jelly,Aisle 3,668,200
+Indian Food,Aisle 3,732,350
+Chinese Food,Aisle 3,732,200
+Cold Cuts,Aisle 4,798,350
+Orange Juice,Aisle 4,798,200
+Laundry Detergent,Aisle 4,860,350
+Paper Towels,Aisle 4,860,200
+Ice Cream,Frozen Aisle,924,350
+Frozen Pizza,Frozen Aisle,924,200
+Pizza Rolls,Frozen Aisle,986,350
+Frozen Vegetables,Frozen Aisle,986,200

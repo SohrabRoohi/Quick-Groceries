@@ -7,7 +7,10 @@ const SERVER_URL : string = "http://localhost:3000";
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css'],
+  host: {
+    '(document:keydown)': 'onKeyDown($event)'
+  }
 })
 export class MapComponent implements OnInit {
   private ioConnection: any;
@@ -115,6 +118,26 @@ export class MapComponent implements OnInit {
 
   private delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  private onKeyDown(event:KeyboardEvent) {
+    // PRESS LEFT ARRO
+    if (event.keyCode == 37) {
+      this.user.x -= 3;
+      console.log(this.user.x);
+    }
+    // PRESS UP ARROW
+    else if (event.keyCode == 38) {
+       this.user.y -= 3;
+    }
+    // PRESS RIGHT ARROW
+    else if (event.keyCode == 39) {
+       this.user.x += 3;
+    }
+    // PRESS DOWN ARROW
+    else if (event.keyCode == 40) {
+       this.user.y += 3;
+    }
   }
 
   private initIoConnection(): void {

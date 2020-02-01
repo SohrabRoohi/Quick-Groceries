@@ -16,7 +16,7 @@ export class SocketService {
     }
 
     public send(message: User): void {
-        this.socket.emit('message', message);
+        this.socket.emit('updatePos', message);
     }
 
     public sendUser(user : any): void {

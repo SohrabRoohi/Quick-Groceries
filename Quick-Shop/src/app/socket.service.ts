@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Message, User, Event } from './models'
+import { Message, User, Event} from './models'
 
 import * as socketIo from 'socket.io-client';
 
@@ -22,6 +22,12 @@ export class SocketService {
     public onMessage(): Observable<Message> {
         return new Observable<Message>(observer => {
             this.socket.on('message', (data: Message) => observer.next(data));
+        });
+    }
+
+    public onSections(): Observable<string> {
+        return new Observable<string>(observer => {
+            this.socket.on('sections', (data: string) => observer.next(data));
         });
     }
 

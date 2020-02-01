@@ -14,6 +14,7 @@ export class MapComponent implements OnInit {
   private canvas: any;
   private ctx: any;
   private img: any;
+  private sections : Map<any,any>;
 
   constructor(private socketService : SocketService) { }
 
@@ -107,6 +108,11 @@ export class MapComponent implements OnInit {
         // this.paintLine();
         this.updatePositions(message);
       });
+
+    this.socketService.onSections().subscribe((sections : string) => {
+        console.log(sections);
+        this.sections = new Map(JSON.parse(sections));
+    });
 
     this.socketService.onEvent(Event.CONNECT)
       .subscribe(() => {

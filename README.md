@@ -1,2 +1,2 @@
-# Quick-Groceries
-U get da groceries fast.
+# Quick-Shop
+U get da shopping done fast.

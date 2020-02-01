@@ -25,7 +25,7 @@ export class MapComponent implements OnInit {
       img.src = "../../../assets/images/layout.jpg";
       img.width = window.innerWidth;
       img.height = window.innerHeight;
-      img.onload = () => {
+      img.onload = () => {  
         ctx.clearRect(0,0,img.width,img.height);
         ctx.drawImage(img, 0, 0);
         let imgData = ctx.getImageData(0, 0, img.width, img.height);

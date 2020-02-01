@@ -11,9 +11,11 @@ export enum Event {
 }
 
 export class User {
-    constructor(private name: string) {}
+    x: number;
+    y: number;
 }
 
 export class Message {
-    constructor(private from: User, private content: string) {}
+    me: User;
+    others: User[];
 }

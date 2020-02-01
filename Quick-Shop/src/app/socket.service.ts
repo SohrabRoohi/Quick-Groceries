@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs'
-import { Observer } from 'rxjs'
-import {Message, Event} from './models'
+import { Observable } from 'rxjs';
+import { Message, User, Event } from './models'
 
 import * as socketIo from 'socket.io-client';
 
@@ -16,7 +15,7 @@ export class SocketService {
         this.socket = socketIo(this.SERVER_URL);
     }
 
-    public send(message: Message): void {
+    public send(message: User): void {
         this.socket.emit('message', message);
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from 'src/app/socket.service';
-import {Message, Event, User, Action} from '../../models';
+import { Message, Event, User } from '../../models';
 
 const SERVER_URL : string = "http://localhost:3000";
 
@@ -15,6 +15,7 @@ export class MapComponent implements OnInit {
   private ctx: any;
   private img: any;
   private sections : Map<any,any>;
+  private user: User = {x: 945, y: 630};
 
   constructor(private socketService : SocketService) { }
 
@@ -51,7 +52,7 @@ export class MapComponent implements OnInit {
       }
       this.ctx.clearRect(0,0,this.img.width,this.img.height);
       this.ctx.putImageData(imgData, 0, 0);
-      (<HTMLImageElement>document.getElementById("myimage")).src = this.canvas.toDataURL();
+      (<HTMLImageElement>document.getElementById("map")).src = this.canvas.toDataURL();
 
       await this.delay(1);
     }
@@ -62,12 +63,26 @@ export class MapComponent implements OnInit {
     this.ctx.drawImage(this.img, 0, 0);
     let imgData = this.ctx.getImageData(0, 0, this.img.width, this.img.height);
 
-    this.updateMe(msg.me, imgData);
-    this.updateOthers(msg.others, imgData);
+    this.updateOthers(msg.positions, imgData);
+    this.updateMe(this.getMyPos(msg.positions), imgData);
 
     this.ctx.clearRect(0,0,this.img.width,this.img.height);
     this.ctx.putImageData(imgData, 0, 0);
-    (<HTMLImageElement>document.getElementById("myimage")).src = this.canvas.toDataURL();
+    (<HTMLImageElement>document.getElementById("map")).src = this.canvas.toDataURL();
+  }
+
+  getMyPos(users: User[]) : User {
+    let min_dis = 9000000000;
+    let user = null;
+    users.forEach(element => {
+      let dis = Math.pow(element.x - this.user.x, 2) + Math.pow(element.y - this.user.y, 2);
+      if (dis < min_dis) {
+        min_dis = dis;
+        user = element;
+      }
+    });
+    this.user = user;
+    return user;
   }
 
   updateMe(user: User, imgData: ImageData) {
@@ -104,7 +119,6 @@ export class MapComponent implements OnInit {
 
     this.ioConnection = this.socketService.onMessage()
       .subscribe((message: Message) => {
-        // console.log(message);
         // this.paintLine();
         this.updatePositions(message);
       });

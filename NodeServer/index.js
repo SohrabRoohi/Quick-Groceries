@@ -65,14 +65,41 @@ io.on('connection', function(socket){
 		}
 	  ]
 	};
+	var pos = [
+    {
+      x: 800, 
+      y: 300
+    },
+    {
+      x: a, 
+      y: 400
+    },
+    {
+      x: 320, 
+      y: 150
+    },
+    {
+      x: 820, 
+      y: 100
+    },
+    {
+      x: 900, 
+      y: b
+    },
+    {
+      x: x,
+      y: y
+    }
+  ];
+    
+	socket.emit('message', {positions: pos});
 	x -= 1;
 	y -= 1;
 	a -= 1;
 	b -= 1;
-	socket.emit('message', msg);
-  }, 100);
+	}, 100);
 });
 
-http.listen(3000, function(){
+http.listen(3000, function() {
   console.log('listening on *:3000');
 });

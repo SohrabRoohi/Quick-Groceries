@@ -16,6 +16,5 @@ export class User {
 }
 
 export class Message {
-    me: User;
-    others: User[];
+    positions: User[];
 }

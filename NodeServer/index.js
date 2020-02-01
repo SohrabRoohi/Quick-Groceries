@@ -8,35 +8,34 @@ io.on('connection', function(socket){
   var a = 1200, b = 600;
   
   setInterval(function() {
-	var msg = {
-	  me: {
-		x: x,
-		y: y,
-	  },
-	  others: [
-		{
-		  x: 800, 
-		  y: 300
-		},
-		{
-		  x: a, 
-		  y: 400
-		},
-		{
-		  x: 320, 
-		  y: 150
-		},
-		{
-		  x: 820, 
-		  y: 100
-		},
-		{
-		  x: 900, 
-		  y: b
-		}
-	  ]
-	};
-	socket.emit('message', msg);
+	var pos = [
+    {
+      x: 800, 
+      y: 300
+    },
+    {
+      x: a, 
+      y: 400
+    },
+    {
+      x: 320, 
+      y: 150
+    },
+    {
+      x: 820, 
+      y: 100
+    },
+    {
+      x: 900, 
+      y: b
+    },
+    {
+      x: x,
+      y: y
+    }
+  ];
+    
+	socket.emit('message', {positions: pos});
 	x -= 1;
 	y -= 1;
 	a -= 1;
@@ -44,6 +43,6 @@ io.on('connection', function(socket){
   }, 100);
 });
 
-http.listen(3000, function(){
+http.listen(3000, function() {
   console.log('listening on *:3000');
 });

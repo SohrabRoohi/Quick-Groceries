@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { I18nSelectPipe } from '@angular/common';
+import * as socketIo from 'socket.io-client';
+import { SocketService } from 'src/app/socket.service';
+import {Message, Event, User, Action} from '../../models';
 
 @Component({
   selector: 'app-map',
@@ -7,11 +10,19 @@ import { I18nSelectPipe } from '@angular/common';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+  private socket;
+  SERVER_URL : string = "http://localhost:3000";
+  action = Action;
+  user: User;
+  messages: Message[] = [];
+  messageContent: string;
+  ioConnection: any;
 
-  constructor() { }
+  constructor(private socketService : SocketService) { }
 
   ngOnInit() {
-    this.hello();
+    this.initIoConnection();
+    //this.hello();
 
   }
 
@@ -46,5 +57,26 @@ export class MapComponent implements OnInit {
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
+
+  private initIoConnection(): void {
+    this.socketService.initSocket();
+
+    this.ioConnection = this.socketService.onMessage()
+      .subscribe((message: Message) => {
+        console.log(message);
+      });
+
+    this.socketService.onEvent(Event.CONNECT)
+      .subscribe(() => {
+        console.log('connected');
+      });
+      
+    this.socketService.onEvent(Event.DISCONNECT)
+      .subscribe(() => {
+        console.log('disconnected');
+      });
+  }
+
+  
 
 }

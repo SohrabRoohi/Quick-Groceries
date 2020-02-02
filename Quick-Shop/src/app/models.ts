@@ -18,3 +18,8 @@ export class User {
 export class Message {
     positions: User[];
 }
+
+export class Item {
+  section: string;
+  items: string[];
+}

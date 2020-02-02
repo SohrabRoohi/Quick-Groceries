@@ -1,0 +1,13 @@
+<p align="center" class="title">Quick Shop</p>
+<div>
+  <mat-grid-list cols="3" rowHeight="40px" *ngIf="items">
+    <mat-list-item role="listitem" *ngFor="let item of items" color="primary">
+      <mat-grid-tile [colspan]=1 [rowspan]=1>
+          <mat-list role="list">
+            <mat-checkbox (click)="update(item)">{{ item }}</mat-checkbox>
+          </mat-list>
+        </mat-grid-tile>
+      </mat-list-item>
+    </mat-grid-list>
+    <button mat-flat-button color="primary" class="start" (click)="submit()">Start</button>
+</div>

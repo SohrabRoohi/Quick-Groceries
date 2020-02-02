@@ -35,6 +35,12 @@ export class SocketService {
         });
     }
 
+    public onItemToSection(): Observable<string> {
+        return new Observable<string>(observer => {
+            this.socket.on('itemToSection', (data: string) => observer.next(data));
+        });
+      }
+
     public onID() : Observable<string> {
         return new Observable<string>(observer => {
             this.socket.on('id', (data : string) => observer.next(data));

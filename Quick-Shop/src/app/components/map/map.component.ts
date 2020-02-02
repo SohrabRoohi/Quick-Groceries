@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { SocketService } from 'src/app/socket.service';
 import { Message, Event, User } from '../../models';
 import { Queue } from 'queue-typescript';
@@ -24,12 +26,20 @@ export class MapComponent implements OnInit {
   private origImgData: any;
   private counts: Map<string, number>;
   private running: boolean = false;
+  private map: Map<string, number>;
 
-  constructor(private socketService: SocketService) {
+  constructor(
+    private socketService: SocketService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.counts = new Map<string, number>();
-    this.counts.set("flowers", 1);
-    this.counts.set("produce2", 1);
-  }
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation() && this.router.getCurrentNavigation().extras && this.router.getCurrentNavigation().extras.state) {
+        this.counts = this.router.getCurrentNavigation().extras.state.map;
+      }
+    });
+   }
 
   ngOnInit() {
     this.initImage();

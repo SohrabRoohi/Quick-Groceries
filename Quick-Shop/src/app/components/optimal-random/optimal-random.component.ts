@@ -232,7 +232,6 @@ export class OptimalRandomComponent implements OnInit {
         var name = this.sectionList[Math.floor(this.sectionList.length * Math.random())];
         this.counts.set(name,1);
       }
-      
     });
 
     this.socketService.onID().subscribe((id: string) => {

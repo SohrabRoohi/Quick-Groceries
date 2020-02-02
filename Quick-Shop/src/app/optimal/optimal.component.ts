@@ -16,7 +16,7 @@ export class OptimalComponent implements OnInit {
   private ctx: any;
   private img: any;
   private sections: Map<any, any>;
-  private sectionList : any;
+  private sectionList : Array<string> = new Array<string>();
   private user: User = { x: 945, y: 615 };
   private id: string;
   private origImgData: any;
@@ -25,10 +25,6 @@ export class OptimalComponent implements OnInit {
 
   constructor(private socketService: SocketService) {
     this.counts = new Map<string, number>();
-    this.counts.set("flowers", 1);
-    this.counts.set("produce2", 1);
-    this.counts.set("seafood", 1);
-    this.counts.set("aisle5", 1);
   }
 
   ngOnInit() {
@@ -223,13 +219,14 @@ export class OptimalComponent implements OnInit {
 
     this.socketService.onSections().subscribe((sections: string) => {
       this.sections = new Map(JSON.parse(sections));
-      this.sectionList = [];
       for(var entries of this.sections.entries()) {
         this.sectionList.push(entries[0]);
       }
       for(var i = 0; i < 10; i++) {
-        
+        var name = this.sectionList[Math.floor(this.sectionList.length * Math.random())];
+        this.counts.set(name,1);
       }
+      
     });
 
     this.socketService.onID().subscribe((id: string) => {

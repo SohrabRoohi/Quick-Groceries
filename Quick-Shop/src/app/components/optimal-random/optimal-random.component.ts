@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SocketService } from 'src/app/socket.service';
-import { Message, Event, User } from '../models';
+import { Message, Event, User } from '../../models';
 import { Queue } from 'queue-typescript';
 
 const SERVER_URL: string = "http://localhost:3000";
 
 @Component({
-  selector: 'app-optimal',
-  templateUrl: './optimal.component.html',
-  styleUrls: ['./optimal.component.css'],
+  selector: 'app-optimal-random',
+  templateUrl: './optimal-random.component.html',
+  styleUrls: ['./optimal-random.component.css'],
 })
-export class OptimalComponent implements OnInit {
+export class OptimalRandomComponent implements OnInit {
   private ioConnection: any;
   private canvas: any;
   private ctx: any;
@@ -31,12 +31,6 @@ export class OptimalComponent implements OnInit {
     private router: Router
   ) {
     this.counts = new Map<string, number>();
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation() && this.router.getCurrentNavigation().extras && this.router.getCurrentNavigation().extras.state) {
-        this.counts = this.router.getCurrentNavigation().extras.state.map;
-        console.log(this.counts);
-      }
-    });
   }
 
   ngOnInit() {
@@ -233,7 +227,12 @@ export class OptimalComponent implements OnInit {
       this.sections = new Map(JSON.parse(sections));
       for(var entries of this.sections.entries()) {
         this.sectionList.push(entries[0]);
-      }      
+      }
+      for(var i = 0; i < 10; i++) {
+        var name = this.sectionList[Math.floor(this.sectionList.length * Math.random())];
+        this.counts.set(name,1);
+      }
+      
     });
 
     this.socketService.onID().subscribe((id: string) => {

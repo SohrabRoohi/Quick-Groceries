@@ -31,6 +31,12 @@ export class SocketService {
         });
     }
 
+    public onItemToSection(): Observable<string> {
+      return new Observable<string>(observer => {
+          this.socket.on('itemToSection', (data: string) => observer.next(data));
+      });
+    }
+
     public onEvent(event: Event): Observable<any> {
         return new Observable<Event>(observer => {
             this.socket.on(event, () => observer.next());

@@ -12,10 +12,14 @@ div {
   color: #3F51B5;
 }
 
-.start {
+button {
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   width: 70vw;
+}
+
+.start {
+  margin-bottom: -25px;
 }
 
 mat-checkbox {

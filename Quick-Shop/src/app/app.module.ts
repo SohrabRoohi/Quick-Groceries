@@ -9,17 +9,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatListModule} from '@angular/material/list';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { OptimalComponent } from './optimal/optimal.component';
+import { OptimalRandomComponent } from './components/optimal-random/optimal-random.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     OptimalComponent,
-    InputComponent
+    InputComponent,
+    OptimalRandomComponent
   ],
   imports: [
     BrowserModule,

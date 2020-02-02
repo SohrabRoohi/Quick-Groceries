@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { SocketService } from 'src/app/socket.service';
 import { Message, Event, User } from '../../models';
 
@@ -20,8 +22,20 @@ export class MapComponent implements OnInit {
   private sections : Map<any,any>;
   private user: User = {x: 945, y: 630};
   private id : string;
+  private map: Map<string, number>;
 
-  constructor(private socketService : SocketService) { }
+  constructor(
+    private socketService: SocketService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation() && this.router.getCurrentNavigation().extras && this.router.getCurrentNavigation().extras.state) {
+        this.map = this.router.getCurrentNavigation().extras.state.map;
+        console.log(this.map);
+      }
+    });
+   }
 
   ngOnInit() {
     this.initImage();

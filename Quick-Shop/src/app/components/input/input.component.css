@@ -1,0 +1,23 @@
+::ng-deep .mat-figure {
+  justify-content: flex-start !important ;
+  align-items: flex-start !important;
+}
+
+div {
+  padding-left: 15%;
+}
+
+.title {
+  font-size: x-large;
+  color: #3F51B5;
+}
+
+.start {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 70vw;
+}
+
+mat-checkbox {
+  margin-left: 15px;
+}

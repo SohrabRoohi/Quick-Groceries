@@ -32,7 +32,7 @@ export class InputComponent implements OnInit {
     }
   }
 
-  protected submit() {
+  protected submit(route: string) {
     let map = new Map<string, number>();
     this.set.forEach(item => {
       let section = this.map.get(item);
@@ -44,7 +44,7 @@ export class InputComponent implements OnInit {
         map: map
       }
     };
-    this.router.navigate(['/map'], navigationExtras);
+    this.router.navigate([route], navigationExtras);
   }
 
   private initIoConnection(): void {

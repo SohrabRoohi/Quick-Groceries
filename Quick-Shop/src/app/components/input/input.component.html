@@ -9,5 +9,6 @@
         </mat-grid-tile>
       </mat-list-item>
     </mat-grid-list>
-    <button mat-flat-button color="primary" class="start" (click)="submit()">Start</button>
+    <button mat-flat-button color="primary" class="start" (click)="submit('/map')">Start</button>
+    <button mat-stroked-button color="primary" (click)="submit('/optimal')">Simulate</button>
 </div>

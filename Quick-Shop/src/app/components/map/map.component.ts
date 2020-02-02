@@ -19,6 +19,7 @@ export class MapComponent implements OnInit {
   private img: any;
   private sections : Map<any,any>;
   private user: User = {x: 945, y: 630};
+  private id : string;
 
   constructor(private socketService : SocketService) { }
 
@@ -67,7 +68,10 @@ export class MapComponent implements OnInit {
     let imgData = this.ctx.getImageData(0, 0, this.img.width, this.img.height);
 
     this.updateOthers(msg.positions, imgData);
-    this.updateMe(this.getMyPos(msg.positions), imgData);
+    var testUser = this.getMyPos(msg.positions);
+    //console.log(testUser);
+    //if(testUser != null) this.user = testUser;
+    this.updateMe(this.user, imgData);
 
     this.ctx.clearRect(0,0,this.img.width,this.img.height);
     this.ctx.putImageData(imgData, 0, 0);
@@ -78,13 +82,13 @@ export class MapComponent implements OnInit {
     let min_dis = 9000000000;
     let user = null;
     users.forEach(element => {
-      let dis = Math.pow(element.x - this.user.x, 2) + Math.pow(element.y - this.user.y, 2);
+      let dis = Math.pow(element.x - this.user["x"], 2) + Math.pow(element.y - this.user["y"], 2);
       if (dis < min_dis) {
         min_dis = dis;
         user = element;
       }
     });
-    this.user = user;
+    //this.user = user;
     return user;
   }
 
@@ -99,10 +103,9 @@ export class MapComponent implements OnInit {
   }
 
   updatePerson(user: User, imgData: ImageData, r: number, g: number, b: number) {
-    let x = user.x;
-    let y = user.y;
+    let x = user["x"];
+    let y = user["y"];
     let index = (y * this.img.width + x) * 4;
-    
     for (let i = -5; i <= 5; i++) {
       for(let j = index-5*4; j <= index+5*4; j += 4) {
         imgData.data[j+i*4*this.img.width+0] = r;
@@ -139,16 +142,23 @@ export class MapComponent implements OnInit {
 
   private initIoConnection(): void {
     this.socketService.initSocket();
-
+    this.socketService.sendUser({id: this.id, pos: {x: this.user["x"], y : this.user["y"]}});
+    
     this.ioConnection = this.socketService.onMessage()
       .subscribe((message: Message) => {
         // this.paintLine();
+        console.log(message);
         this.updatePositions(message);
       });
 
     this.socketService.onSections().subscribe((sections : string) => {
         console.log(sections);
         this.sections = new Map(JSON.parse(sections));
+    });
+
+    this.socketService.onID().subscribe((id : string) => {
+      this.id = id;
+      setInterval(() => {this.user.y -= 10; this.socketService.sendUser({id: this.id, pos: {x: this.user["x"], y : this.user["y"]}})}, 1000);
     });
 
     this.socketService.onEvent(Event.CONNECT)
@@ -159,6 +169,6 @@ export class MapComponent implements OnInit {
     this.socketService.onEvent(Event.DISCONNECT)
       .subscribe(() => {
         console.log('disconnected');
-      });
+      })
   }
 }

@@ -19,6 +19,10 @@ export class SocketService {
         this.socket.emit('updatePos', message);
     }
 
+    public sendUser(user : any): void {
+        this.socket.emit('user', user);
+    }
+
     public onMessage(): Observable<Message> {
         return new Observable<Message>(observer => {
             this.socket.on('message', (data: Message) => observer.next(data));
@@ -35,6 +39,12 @@ export class SocketService {
       return new Observable<string>(observer => {
           this.socket.on('itemToSection', (data: string) => observer.next(data));
       });
+    }
+
+    public onID() : Observable<string> {
+        return new Observable<string>(observer => {
+            this.socket.on('id', (data : string) => observer.next(data));
+        });
     }
 
     public onEvent(event: Event): Observable<any> {

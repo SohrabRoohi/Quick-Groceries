@@ -8,7 +8,7 @@ import * as socketIo from 'socket.io-client';
   providedIn: 'root'
 })
 export class SocketService {
-  SERVER_URL : string = "http://localhost:3000";
+  SERVER_URL : string = "https://quickshop2020.herokuapp.com";
   private socket;
 
     public initSocket(): void {

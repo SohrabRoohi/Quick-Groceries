@@ -5,7 +5,7 @@ import { SocketService } from 'src/app/socket.service';
 import { Message, Event, User } from '../../models';
 import { Queue } from 'queue-typescript';
 
-const SERVER_URL: string = "http://localhost:3000";
+const SERVER_URL: string = "https://quickshop2020.herokuapp.com";
 
 @Component({
   selector: 'app-map',

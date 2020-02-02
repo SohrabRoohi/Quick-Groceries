@@ -109,7 +109,8 @@ io.on('connection', function(socket){
 	}, 100);
 });
 
+const port_num = process.env.PORT || 3000;
 
-http.listen(3000, function() {
-  console.log('listening on *:3000');
+http.listen(port_num, function() {
+  console.log(`listening on ${port_num}`);
 });

@@ -36,8 +36,8 @@ export class InputComponent implements OnInit {
     let map = new Map<string, number>();
     this.set.forEach(item => {
       let section = this.map.get(item);
-      let count = map[section];
-      map[section] = count ? count + 1 : 1;
+      let count = map.has(section) == false ? 0 : map.get(section);
+      map.set(section, count+1);
     });
     let navigationExtras: NavigationExtras = {
       state: {
@@ -51,8 +51,8 @@ export class InputComponent implements OnInit {
     this.socketService.initSocket();
 
     this.ioConnection = this.socketService.onItemToSection().subscribe((itemToSection : string) => {
-        this.map = new Map(JSON.parse(itemToSection));
-        this.items = Array.from(this.map.keys());
+      this.map = new Map(JSON.parse(itemToSection));
+      this.items = Array.from(this.map.keys());
     });
 
     this.socketService.onEvent(Event.CONNECT)

@@ -1,45 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
 import { SocketService } from 'src/app/socket.service';
-import { Message, Event, User } from '../../models';
+import { Message, Event, User } from '../models';
 import { Queue } from 'queue-typescript';
 
 const SERVER_URL: string = "http://localhost:3000";
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css'],
-  host: {
-    '(document:keydown)': 'onKeyDown($event)'
-  }
+  selector: 'app-optimal',
+  templateUrl: './optimal.component.html',
+  styleUrls: ['./optimal.component.css'],
 })
-export class MapComponent implements OnInit {
+export class OptimalComponent implements OnInit {
   private ioConnection: any;
   private canvas: any;
   private ctx: any;
   private img: any;
   private sections: Map<any, any>;
+  private sectionList : any;
   private user: User = { x: 945, y: 615 };
   private id: string;
   private origImgData: any;
   private counts: Map<string, number>;
   private running: boolean = false;
-  private map: Map<string, number>;
 
-  constructor(
-    private socketService: SocketService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private socketService: SocketService) {
     this.counts = new Map<string, number>();
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation() && this.router.getCurrentNavigation().extras && this.router.getCurrentNavigation().extras.state) {
-        this.counts = this.router.getCurrentNavigation().extras.state.map;
-      }
-    });
-   }
+    this.counts.set("flowers", 1);
+    this.counts.set("produce2", 1);
+    this.counts.set("seafood", 1);
+    this.counts.set("aisle5", 1);
+  }
 
   ngOnInit() {
     this.initImage();
@@ -103,7 +93,7 @@ export class MapComponent implements OnInit {
   }
 
   findroute(imgData: ImageData) {
-    if (!this.running) {
+    if (!this.running && this.counts.size != 0) {
       for (var entries of this.counts.entries()) {
         var d = this.distance(this.user.x, this.user.y, this.sections.get(entries[0])[0], this.sections.get(entries[0])[1]);
         if (d <= 20) {
@@ -115,9 +105,10 @@ export class MapComponent implements OnInit {
       let queue = new Queue<number>();
       let visited: boolean[][] = new Array(this.img.width).fill(false).map(() => new Array(this.img.height).fill(false));
       let parent: number[][] = new Array(this.img.width).fill(-1).map(() => new Array(this.img.height).fill(-1));
-
+      let list = [];
       queue.enqueue(this.user.x + this.img.width * this.user.y);
       let start = this.user.x + this.user.y * this.img.width;
+      
       visited[this.user.x][this.user.y] = true;
       let end = null;
       let dx = [3, -3, 0, 0];
@@ -146,6 +137,7 @@ export class MapComponent implements OnInit {
       }
       if (end) {
         while (end != start) {
+          list.push(end);
           var curX = end % this.img.width;
           var curY = Math.floor(end / this.img.width);
           let index = (curY * this.img.width + curX) * 4;
@@ -155,6 +147,12 @@ export class MapComponent implements OnInit {
           imgData.data[index + 3] = 255;
           end = parent[curX][curY];
         }
+      }
+      if(list.length > 0) {
+        var val = list[Math.max(0,list.length-3)];
+        this.user.x = val % this.img.width;
+        this.user.y = Math.floor(val / this.img.width);
+        
       }
       this.running = false;
     }
@@ -213,33 +211,6 @@ export class MapComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  private onKeyDown(event: KeyboardEvent) {
-    // PRESS LEFT ARROW
-    if (event.keyCode == 37) {
-      if (this.checkPos(this.user.x - 3, this.user.y)) {
-        this.user.x -= 3;
-      }
-    }
-    // PRESS UP ARROW
-    else if (event.keyCode == 38) {
-      if (this.checkPos(this.user.x, this.user.y - 3)) {
-        this.user.y -= 3;
-      }
-    }
-    // PRESS RIGHT ARROW
-    else if (event.keyCode == 39) {
-      if (this.checkPos(this.user.x + 3, this.user.y)) {
-        this.user.x += 3;
-      }
-    }
-    // PRESS DOWN ARROW
-    else if (event.keyCode == 40) {
-      if (this.checkPos(this.user.x, this.user.y + 3)) {
-        this.user.y += 3;
-      }
-    }
-  }
-
   private initIoConnection(): void {
     this.socketService.initSocket();
     this.socketService.sendUser({ id: this.id, pos: { x: this.user["x"], y: this.user["y"] } });
@@ -252,6 +223,13 @@ export class MapComponent implements OnInit {
 
     this.socketService.onSections().subscribe((sections: string) => {
       this.sections = new Map(JSON.parse(sections));
+      this.sectionList = [];
+      for(var entries of this.sections.entries()) {
+        this.sectionList.push(entries[0]);
+      }
+      for(var i = 0; i < 10; i++) {
+        
+      }
     });
 
     this.socketService.onID().subscribe((id: string) => {

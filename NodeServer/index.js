@@ -102,7 +102,6 @@ io.on('connection', function(socket){
   });
   setInterval(function() {
 	var pos = [];
-	console.log(users);
     for(let value of Object.values(users)) {
 		pos.push(value);
 	}

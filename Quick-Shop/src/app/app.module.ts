@@ -12,11 +12,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { OptimalComponent } from './optimal/optimal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
+    OptimalComponent,
     InputComponent
   ],
   imports: [

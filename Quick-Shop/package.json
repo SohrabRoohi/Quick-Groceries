@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~8.2.11",
     "@angular/router": "~8.2.11",
     "ngx-mat-select-search": "^2.1.1",
+    "queue-typescript": "^1.0.1",
     "rxjs": "^6.4.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
